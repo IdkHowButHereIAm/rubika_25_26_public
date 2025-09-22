@@ -16,6 +16,7 @@ struct sTimeCompare
 
 class Algo
 {
+
 public:
 	Algo(const std::string& name);
 

@@ -6,6 +6,7 @@
 
 #include "Shared.h"
 #include "Algo.h"
+#include "NewAlgo.h"
 
 std::vector<sTeam> g_vTeamNames =
 {
@@ -25,14 +26,14 @@ unsigned PickupRandomTeamIndex()
 	return rand() % g_vTeamNames.size();
 }
 
-void GenerateEntities(unsigned size, std::vector<sEntity>& entities)
+void GenerateEntities(int size, std::vector<sEntity>& entities)
 {
 	entities.clear();
 	entities.reserve(size);
-	for (unsigned i = 0; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 	{
-		unsigned teamIndex = PickupRandomTeamIndex();
-		entities.push_back(sEntity(i, g_vTeamNames[teamIndex]));
+		int teamIndex = PickupRandomTeamIndex();
+		entities.emplace_back(i, g_vTeamNames[teamIndex]);
 	}
 }
 
@@ -43,22 +44,22 @@ int main()
 
 	std::vector<Algo*> algos;
 	{
-		// Add an implementation of Algo class here, using new
+		algos.push_back(new NewAlgo("feur"));
 	}
 
-	const unsigned retry = 25;
-	for (unsigned nb = 10; nb <= 10'000'000; nb *= 10)
+	const int retry = 25;
+	for (int nb = 10; nb <= 10'000'000; nb *= 10)
 	{
-		std::cout << "Test with " << nb << " elements" << std::endl;
+		std::cout << "Test with " << nb << " elements" << '\n';
 
 		for (Algo* algo : algos)
 		{
 			algo->StartComputation(nb);
 		}
 
-		for (unsigned i = 0; i < retry; ++i)
+		for (int i = 0; i < retry; ++i)
 		{
-			std::cout << "\tTry " << i + 1 << " / " << retry << std::endl;
+			std::cout << "\tTry " << i + 1 << " / " << retry << '\n';
 			const sTeam& team = g_vTeamNames[PickupRandomTeamIndex()];
 
 			std::vector<sEntity> allEntities;
@@ -78,11 +79,11 @@ int main()
 
 
 
-	std::cout << "Compare " << algos.size() << " algo" << std::endl;
+	std::cout << "Compare " << algos.size() << " algo" << '\n';
 	for (Algo* algo : algos)
 	{
 		algo->PrintResult();
-		std::cout << std::endl;
+		std::cout << '\n';
 	}
 
 	for (Algo* algo : algos)
