@@ -7,7 +7,8 @@ unsigned long long uFrameCount = 0;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(720, 480), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
+
     ImGui::SFML::Init(window);
 
     sf::Clock clock;
@@ -24,15 +25,14 @@ int main()
 
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLUE, "Event & Input");
 
-        sf::Event event;
-        while (window.pollEvent(event))
+        while (const std::optional event = window.pollEvent())
         {
-            if (event.type == sf::Event::Closed)
+            if (event->is<sf::Event::Closed>())
             {
                 window.close();
             }
 
-            ImGui::SFML::ProcessEvent(window, event);
+            ImGui::SFML::ProcessEvent(window, event.value());
         }
 
         PROFILER_EVENT_END();
