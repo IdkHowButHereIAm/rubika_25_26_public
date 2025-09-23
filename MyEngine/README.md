@@ -5,7 +5,7 @@ The purpose of this project is to implement a tiny 2D engine using SFML to pract
 ### Resources
 
 Here are useful links:
-- [SFML doc](https://www.sfml-dev.org/documentation/2.6.2/)
+- [SFML doc](https://www.sfml-dev.org/documentation/3.0.2/)
 - [ImGui](https://pthom.github.io/imgui_manual_online/)
 
 ## Threshold 0
