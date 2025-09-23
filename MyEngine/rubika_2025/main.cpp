@@ -2,8 +2,10 @@
 #include <Imgui/imgui.h>
 #include <Imgui/imgui-SFML.h>
 #include "Profiler.h"
+#include "Globals.h"
 
 #include "Logger.h"
+#include "TextureMgr.h"
 
 unsigned long long uFrameCount = 0;
 
@@ -16,6 +18,8 @@ int main()
     Logger::Info("This is an info message. That is useful");
     Logger::Warning("This is a warning message. Should I worry?");
     Logger::Error("This is an error message. Oh sh*t!!");
+
+    Globals::Instance().Init();
 
     sf::Clock clock;
     clock.restart();
@@ -51,16 +55,16 @@ int main()
         Logger::DrawLogger();
 
         PROFILER_EVENT_END();
-
+        
+        
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
         window.clear();
+      
 
-        sf::Sprite sprite;
-        
-        sf::Texture Image;
-        Image.loadFromFile("C:/Users/p.farin/Downloads/GUEROULT Matys clown GP4.jpg");
-        sprite.setTexture(Image);
-        sprite.setScale(0.25f, 0.25f);
+        Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Pictures/Screenshots/vroom.png");
+
+        sf::Sprite sprite(Globals::Instance().TextureMgr->GetTextureData("vroom").texture);
+        sprite.setScale(sf::Vector2f(0.25f, 0.25f));
         
         window.draw(sprite);
 

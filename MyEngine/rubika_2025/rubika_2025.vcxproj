@@ -205,8 +205,10 @@
     <ClCompile Include="..\Dependencies\Imgui\imgui_draw.cpp" />
     <ClCompile Include="..\Dependencies\Imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Dependencies\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextureMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

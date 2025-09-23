@@ -7,19 +7,15 @@ class TextureMgr;
 class Globals final
 {
 public:
+	static Globals& Instance();
+	void Init();
+	void Destroy();
+	TextureMgr* TextureMgr;
+	
+private:
 
-	/*
-	* Constructor & Destructor are here for a reason
-	*/
+	static inline Globals* m_instance = nullptr;
 	Globals();
 	~Globals();
 
-	/*
-	* Init & Destroy of the class
-	* They must be implemented in the right way to (de)initialize members
-	*/
-	void Init();
-	void Destroy();
-private:
-	TextureMgr* TextureMgr;
 };
