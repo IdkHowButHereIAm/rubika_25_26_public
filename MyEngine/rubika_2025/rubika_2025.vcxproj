@@ -205,13 +205,17 @@
     <ClCompile Include="..\Dependencies\Imgui\imgui_draw.cpp" />
     <ClCompile Include="..\Dependencies\Imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Dependencies\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Profiler.h" />
+    <ClInclude Include="TextureMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
