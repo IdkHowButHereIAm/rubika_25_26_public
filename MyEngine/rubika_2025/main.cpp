@@ -48,6 +48,15 @@ int main()
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
         window.clear();
 
+        sf::Sprite sprite;
+        
+        sf::Texture Image;
+        Image.loadFromFile("C:/Users/p.farin/Downloads/GUEROULT Matys clown GP4.jpg");
+        sprite.setTexture(Image);
+        sprite.setScale(0.25f, 0.25f);
+        
+        window.draw(sprite);
+
         ImGui::SFML::Render(window);
         window.display();
 
