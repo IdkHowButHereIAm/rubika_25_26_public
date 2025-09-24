@@ -26,6 +26,7 @@ int main()
 
     while (window.isOpen())
     {
+        Globals::Instance().Update();
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "Frame %llu", uFrameCount);
 
         int deltaTimeMicroS = clock.getElapsedTime().asMicroseconds();
@@ -75,6 +76,7 @@ int main()
 
         PROFILER_EVENT_END();
         ++uFrameCount;
+        Globals::Instance().Draw();
     }
 
     ImGui::SFML::Shutdown();

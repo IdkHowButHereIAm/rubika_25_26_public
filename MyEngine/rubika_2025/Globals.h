@@ -11,11 +11,14 @@ public:
 	static Globals& Instance();
 	void Init();
 	void Destroy();
+	void Update();
+	void Draw();
 	TextureMgr* TextureMgr;
+	GameMgr* GameMgr;
 	
 private:
 	static inline Globals* m_instance = nullptr;
 	Globals();
 private:
-	GameMgr* GameMgr;
+
 };

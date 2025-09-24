@@ -26,8 +26,15 @@ public:
 	virtual void Destroy() = 0;
 
 protected:
-	Entity& GetEntity() const { return Parent; };
+	Entity& GetEntity() const;;
 
 private:
 	Entity& Parent;
 };
+
+ IComponent::IComponent(Entity& entity): Parent()
+{
+}
+
+inline Entity& IComponent::GetEntity() const
+{ return Parent; }

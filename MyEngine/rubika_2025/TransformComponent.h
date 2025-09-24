@@ -8,7 +8,7 @@ class TransformComponent : public IComponent
 {
 public:
 	TransformComponent(Entity& entity);
-	~TransformComponent();
+	~TransformComponent() override;
 
 	const sf::Transform& GetMatrix() const;
 
