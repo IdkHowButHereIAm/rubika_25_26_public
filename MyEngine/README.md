@@ -87,3 +87,140 @@ Here are some hints:
   * value 
   * value_size
   * next_sibling
+
+## Threshold 2
+
+The purpose of this threshold is to implement an entity-component system to understand how common game engines (such as Unreal Engine or Unity) work. By creating this system, a animated sprite component and using the `TextureMgr` we have created during **Threshold 1**, we will create a animation system that can be use on every entity in our engine to play any animation which respects the right format.
+
+### Step 0
+
+Let's start with the entity/component part. An `Entity` is the base class of our system. Every thing is an entity (some entity will be special and will have access to more feature in the future) and those entities might have components that will add features, as we discussed in class.
+
+To do so, a new file has been added `Entity.h` which provides the global architecture of our entities.
+`IComponent.h` provides the base design of all our components. So, to create a new component, the new class must inherit from `IComponent` (take a look at the `TransformComponent` to see an implementation). Let's start with this component for now.
+
+About the `Entity` part, you first need to implement functions about its own life cycle. The all component system is lacking, so you must add it so an entity can use `IComponent`.
+```
+/*
+ * Constructor of the Entity class. The friendlyName parameter is for debugging purpose
+ */
+Entity(std::string friendlyName = "");
+
+/*
+ * Destructor of the Entity class. All allocated resources must be released
+ */
+virtual ~Entity();
+
+/*
+ * First function that will be called when an entity will be added to the current scene.
+ */
+virtual void Start();
+
+/*
+ * Function that will be called each frame if our entity is part of the current scene.
+ */
+virtual void Update(float fDeltaTime);
+
+/*
+ * Last function that will be called before an entity is removed of the current scene.
+ */
+virtual void Destroy();
+
+/*
+ * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
+  * Function that will be called each frame to draw the entity
+ */
+void Draw(sf::RenderWindow& window) const;
+```
+
+### Step 1
+
+Our `Entity` is ready and can be integrated to the engine flow.
+To do so, look at the `GameMgr.h`and `GameMgr.cpp` that have been added to the project and to the `Globals` class. 
+
+**You must init this manager in the same way you did for the `TextureMgr`. The more you are coherent with yourself, the cleaer you code will be.**
+
+An `Update` function and a `Draw` function have been added to the `Globals` class. Implement it and call them at the right moment in your flow.
+
+We now have a working flow but it lacks of component. It is time to add them.
+
+### Step 2
+
+Looking back at `Entity.h`, there are still functions that have not been implemented, the intersting ones:
+```
+/*
+* Add a new component of type C to the list of components.
+* Be sure that we don't have the same component already registered.
+* If an error occurs, return nullptr. Otherwise, creates the component and returns its pointer.
+*/
+template <typename C>
+C* AddComponent();
+
+/*
+* Get an existing component of type C that has previously be added.
+* If an error occurs or if there is no component of type C, returns nullptr.
+* Otherwise, returns its pointer.
+*/
+template <typename C>
+C* GetComponent() const;
+```
+
+**hints:**
+- As we discussed in class, templated functions cannot be implemented in cpp. You have to define them in the same header as their declaration. A good way to do it, is to create `hxx` files that we be included at the end of your `.h` which defines those functions.
+- To avoid having, awful errors in your console because of template, it is a good habit to use static checks with your template to ensure the given type will work with your implementation. For instance, in your case we want C to inherit from `IComponent`. This check can be made using `static_assert` and `std::is_base_of` (and the `requires` keyword in C++20).
+
+### Step 3
+
+Test your implementation by adding a `TranformComponent` to all entities by default.
+
+### Step 4
+
+Now, it is time to use every thing at once. Let's create a custom component `SpriteComponent` that will use a `sTextureData` to play an animation.
+To do so, a `SpriteComponent.h` file has been added and contains the global architecture of this component (in the future, we will modify the inheritance tree to add a `IDrawable` layer between `IComponent` and `SpriteComponent`, so that lots of components can share the same code).
+
+```
+virtual void Start() override;
+
+virtual void Update(float fDeltaTime) override;
+
+virtual void Destroy() override;
+
+virtual void Draw(sf::RenderWindow& window) const override;
+
+void SetTexture(const std::string& textureName);
+void SetAnimation(const std::string& animationName);
+
+void PlayAnimation(bool bPause);
+```
+
+To play an animation contained in `sTextureData`, here are information about the internal structure:
+- **X, Y** : Coordinates of the top-left corner of the animation in the texture
+- **SizeX, SizeY**: Size of one frame of the animation
+- **OffsetX, OffsetY** : Offset between two frames of an animation (distance between the right/botton side of the previous frame and the left/up side of the next frame)
+- **SpriteNum** : Nunber of frame in the all animation
+- **SpritesOnLine** : Number of frame on one line
+- **Reverted**: Is the frame must be reverted (horizontal)
+- **TimeBetweenAnimation**: Time between two frame
+
+**Do not forget to use the `TransformComponent` to display the sprite at the right place**
+
+At this state, you should be able to create an entity, assign an texture to it and play an animation.
+
+### Step 5 (next threshold)
+
+To avoid recompiling the game each time we want to modify something about an entity, we have to create some debug windows to be able to control everything dynamically.
+
+To do so, create a `DebugController` class which will contain every debug window we will need.
+
+Start by adding it to the `Globals` class **only** in debug/RelWithDebugInfo mode (the `DebugController` must only be compiled in those configuration - use MACRO to do it).
+
+Use ImGui to draw interfaces, here is a list of features that you should implement:
+- Enable/Disable the console
+- Display the list of entities in our scene
+- For the selected entity:
+  * Display the list of component
+  * Data of each component
+  * Add a new component dynamically
+- Add a new entity
+- Select another texture in the `SpriteComponent`, select another animation...
+- ...
