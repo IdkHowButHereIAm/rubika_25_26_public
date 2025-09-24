@@ -1,23 +1,36 @@
 #pragma once
 
-#include <filesystem>
-#include <map>
 #include <SFML/Graphics/Texture.hpp>
+
+#include <filesystem>
+#include <unordered_map>
+#include <string>
+
+struct sAnimationData
+{
+	sAnimationData();
+
+	int StartX;
+	int StartY;
+	int SizeX;
+	int SizeY;
+	int OffsetX;
+	int OffsetY;
+	int AnimationSpriteCount;
+	int SpriteOnLine;
+	bool IsReverted;
+	float TimeBetweenAnimationInS;
+};
 
 /* Struct that contains any data linked to a texture.
  * From the texture itself to its metadata.
  */ 
 struct sTextureData
 {
-	sf::Texture texture;
-
-	//Parse
-	sf::Vector2f position;
-	sf::Vector2f size;
-	sf::Vector2f offset;
-	int index;
-	int currentSprite;
-	bool reverted;
+	sf::Texture Texture;
+	std::unordered_map<std::string, sAnimationData> AnimationData;
+	sTextureData();
+	~sTextureData();
 };
 
 class TextureMgr final
@@ -31,12 +44,15 @@ public:
 	*/
 	bool LoadTexture(const std::filesystem::path& path);
 
-	std::map<std::string, sTextureData> textures;
-	sTextureData baseTexture;
-
+	TextureMgr();
+	~TextureMgr();
 	/*
 	 * Returns the corresponding TextureData using the name of the texture
 	 */
 	const sTextureData& GetTextureData(const std::string& name) const;
-	bool xml_parse(const std::filesystem::path& path);
+
+private:
+	std::unordered_map<std::string, sTextureData> Textures;
+
+	sTextureData MissingTexture;
 };

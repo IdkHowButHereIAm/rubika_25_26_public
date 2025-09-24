@@ -11,7 +11,7 @@ Entity::Entity(std::string friendlyName)
 {
     friendlyName = friendlyName;
     AddComponent<TransformComponent>();
-    //AddComponent<SpriteComponent>();
+    AddComponent<SpriteComponent>();
 }
 
 Entity::~Entity()

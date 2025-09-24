@@ -15,7 +15,7 @@ public:
 	IComponent() = delete;
 	IComponent(Entity& entity);
 
-	virtual ~IComponent();
+	virtual ~IComponent() {}
 
 	virtual void Start() = 0;
 
@@ -26,13 +26,13 @@ public:
 	virtual void Destroy() = 0;
 
 protected:
-	Entity& GetEntity() const;;
+	Entity& GetEntity() const;
 
 private:
 	Entity& Parent;
 };
 
- IComponent::IComponent(Entity& entity): Parent()
+inline IComponent::IComponent(Entity& entity): Parent(entity)
 {
 }
 

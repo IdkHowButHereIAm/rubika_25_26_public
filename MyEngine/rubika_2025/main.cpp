@@ -64,7 +64,7 @@ int main()
 
         Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/enemy_texture_1.xml");
 
-        sf::Sprite sprite(Globals::Instance().TextureMgr->GetTextureData("vroom").texture);
+        sf::Sprite sprite(Globals::Instance().TextureMgr->GetTextureData("vroom").Texture);
         sprite.setScale(sf::Vector2f(0.25f, 0.25f));
         
         window.draw(sprite);
