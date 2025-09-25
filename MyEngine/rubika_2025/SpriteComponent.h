@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include <string>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 #include "TextureMgr.h"
@@ -26,4 +27,5 @@ public:
 
 	private:
 	sTextureData m_p_texture_;
+	sAnimationData animation_data_;
 };

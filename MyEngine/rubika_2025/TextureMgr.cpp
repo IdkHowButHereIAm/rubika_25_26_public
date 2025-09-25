@@ -178,7 +178,7 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& path)
 	}
 
 	sTextureData& textureData = p.first->second;
-	if (!textureData.Texture.loadFromFile(path.generic_u8string()))
+	if (!textureData.Texture.loadFromFile(path.string().c_str()))
 	{
 		return false;
 	}

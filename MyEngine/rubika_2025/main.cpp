@@ -1,10 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <Imgui/imgui.h>
 #include <Imgui/imgui-SFML.h>
+
+#include "Debugs.h"
+#include "Entity.h"
+#include "GameMgr.h"
 #include "Profiler.h"
 #include "Globals.h"
 
 #include "Logger.h"
+#include "SpriteComponent.h"
 #include "TextureMgr.h"
 
 unsigned long long uFrameCount = 0;
@@ -53,7 +58,7 @@ int main()
 
         // sample
         //ImGui::ShowDemoWindow();
-        Logger::DrawLogger();
+        Debugs::DrawDebugWindow();
 
         PROFILER_EVENT_END();
         
@@ -62,7 +67,10 @@ int main()
         window.clear();
       
 
-        Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/enemy_texture_1.xml");
+        Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/enemy_texture_1.png");
+        Entity* test = new Entity();
+        test->GetComponent<SpriteComponent>()->SetTexture("enemy_texture_1");
+        Globals::Instance().GameMgr->AddEntity(test);
 
         sf::Sprite sprite(Globals::Instance().TextureMgr->GetTextureData("vroom").Texture);
         sprite.setScale(sf::Vector2f(0.25f, 0.25f));
@@ -76,7 +84,7 @@ int main()
 
         PROFILER_EVENT_END();
         ++uFrameCount;
-        Globals::Instance().Draw();
+        Globals::Instance().Draw(window);
     }
 
     ImGui::SFML::Shutdown();

@@ -31,9 +31,5 @@ private:
 	Entity& Parent;
 };
 
-inline IComponent::IComponent(Entity& entity): Parent(entity)
-{
-}
-
 inline Entity& IComponent::GetEntity() const
 { return Parent; }

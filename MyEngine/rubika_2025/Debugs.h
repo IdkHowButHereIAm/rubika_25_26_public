@@ -2,6 +2,8 @@
 
 #include "Logger.h"
 
+#ifdef _DEBUG
+
 class Debugs
 {
 #pragma region Singleton
@@ -25,3 +27,5 @@ private:
 
 	// You can add any method, member... you need in this file.
 };
+
+#endif

@@ -1,5 +1,6 @@
 #include "Debugs.h"
 
+
 void Debugs::DrawDebugWindow()
 {
 	GetInstance()->DrawDebug();

@@ -1,5 +1,10 @@
 #pragma once
 
+namespace sf
+{
+	class RenderWindow;
+}
+
 // This is a forward declaration :)
 // This is VERY useful and you must learn about it and use it as much as possible
 class TextureMgr;
@@ -12,7 +17,7 @@ public:
 	void Init();
 	void Destroy();
 	void Update();
-	void Draw();
+	void Draw(sf::RenderWindow& window) const;
 	TextureMgr* TextureMgr;
 	GameMgr* GameMgr;
 	

@@ -6,8 +6,6 @@
 class Logger
 {
 public:
-	Logger();
-	~Logger();
 
 	static void Info(const std::string& message);
 	static void Warning(const std::string& message);

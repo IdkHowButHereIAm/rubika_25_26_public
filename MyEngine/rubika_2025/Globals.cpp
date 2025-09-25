@@ -32,6 +32,8 @@ void Globals::Update()
 {
 }
 
-void Globals::Draw()
+void Globals::Draw(sf::RenderWindow& window) const
 {
+   GameMgr->Draw(window);
 }
+

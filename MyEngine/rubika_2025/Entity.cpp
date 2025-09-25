@@ -3,6 +3,9 @@
 #include <SFML/Graphics/Transform.hpp>
 
 #include "Entity.h"
+
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "SpriteComponent.h"
 #include "TransformComponent.h"
 
@@ -32,4 +35,8 @@ void Entity::Destroy()
 
 void Entity::Draw(sf::RenderWindow& window) const
 {
+    for (const auto element : Components)
+    {
+        element->Draw(window);
+    }
 }
