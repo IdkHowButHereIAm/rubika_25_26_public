@@ -13,10 +13,9 @@ class IComponent abstract
 {
 public:
 	IComponent() = delete;
-	IComponent(Entity& entity);
+	IComponent(Entity& entity) : Parent(entity) {}
 
 	virtual ~IComponent() {}
-
 	virtual void Start() = 0;
 
 	virtual void Update(float fDeltaTime) = 0;

@@ -9,9 +9,6 @@ public:
 	Logger();
 	~Logger();
 
-	static Logger* Instance();
-	static void DeleteInstance();
-
 	static void Info(const std::string& message);
 	static void Warning(const std::string& message);
 	static void Error(const std::string& message);
@@ -19,8 +16,6 @@ public:
 	static void DrawLogger();
 
 protected:
-
-	inline static Logger* instance = nullptr;
 
 	enum class eMessageType
 	{

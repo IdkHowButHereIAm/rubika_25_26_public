@@ -1,40 +1,14 @@
 #include "Logger.h"
 
 #include "Imgui/imgui.h"
-
-Logger::Logger()
-{
-}
-
-Logger::~Logger()
-{
-}
-
-Logger* Logger::Instance()
-{
-	if (!instance)
-	{
-		instance = new Logger();
-	}
-
-	return instance;
-}
-
-void Logger::DeleteInstance()
-{
-	if (instance)
-	{
-		delete instance;
-	}
-	instance = nullptr;
-}
+#include "Debugs.h"
 
 void Logger::Info(const std::string& message)
 {
 	sMessageInfo info;
 	info.Type = eMessageType::Info;
 	info.Message = message;
-	Instance()->PushNewMessage(info);
+	Debugs::GetLogger().PushNewMessage(info);
 }
 
 void Logger::Warning(const std::string& message)
@@ -42,7 +16,7 @@ void Logger::Warning(const std::string& message)
 	sMessageInfo info;
 	info.Type = eMessageType::Warning;
 	info.Message = message;
-	Instance()->PushNewMessage(info);
+	Debugs::GetLogger().PushNewMessage(info);
 }
 
 void Logger::Error(const std::string& message)
@@ -50,12 +24,12 @@ void Logger::Error(const std::string& message)
 	sMessageInfo info;
 	info.Type = eMessageType::Error;
 	info.Message = message;
-	Instance()->PushNewMessage(info);
+	Debugs::GetLogger().PushNewMessage(info);
 }
 
 void Logger::DrawLogger()
 {
-	Instance()->Draw();
+	Debugs::GetLogger().Draw();
 }
 
 void Logger::PushNewMessage(const sMessageInfo& message)

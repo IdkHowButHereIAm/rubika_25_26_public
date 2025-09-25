@@ -206,21 +206,44 @@ To play an animation contained in `sTextureData`, here are information about the
 
 At this state, you should be able to create an entity, assign an texture to it and play an animation.
 
-### Step 5 (next threshold)
+## Threshold 3
 
-To avoid recompiling the game each time we want to modify something about an entity, we have to create some debug windows to be able to control everything dynamically.
+Congratulation, you have created you first component (and your first system in a way).
+The purpose of this Threshold is now to create some debug windows using `ImGui` to control them.
 
-To do so, create a `DebugController` class which will contain every debug window we will need.
+### Step 0
 
-Start by adding it to the `Globals` class **only** in debug/RelWithDebugInfo mode (the `DebugController` must only be compiled in those configuration - use MACRO to do it).
+A new file `Debugs` has been added to the solution. As this name implies, this file must only compiled in `Debug` configuration and in `RelWithDebugInfo` configurarion. To do so, use MACRO (in the same way we used then in `Profiler.h`) to surrond the future code. At the same time, every call to `ImGui` must be removed in `Release` (move them behind a define) and `ImGui` files must be excluded from the solution in `Release` mode (so we won't waste time compiling then in this mode).
 
-Use ImGui to draw interfaces, here is a list of features that you should implement:
-- Enable/Disable the console
+At the end :
+- Compiling in `Debug` or `RelWithDebInfo` should compile `ImGui` files and enable the `Debugs` class
+- Compiling in `Release` must not compile ImGUi or anything linked to the `Debugs` class
+
+**hint :** It is much more clear to use a `_USE_IMGUI` define (that will be set or not depending of the configuration), so that by reading the name of the define, you will instantly know what is its purpose.
+
+### Step 1
+
+Now we have configure our solution to only compile what we really need, it is time to implent our `Debugs` class.
+The purpose of this class is to gather all debug windows, commands... that would help us visualize our scene/project.
+
+The console is now part of the `Debugs` class, everything has be changed to make it happen without breaking anything. Replace in you main function the call to `Logger::DrawLogger` by a call to `Debugs::DrawDebugWindow`.
+
+You now have to implement the following function to draw a window and display in a tab the content of the Logger (you might want to reuse the Logger`s draw function but you can modify it if you want).
+
+**Note : Less guidelines will be given for the next steps to make you think about your architecture and how to make things happen. Futhermore, UI (and UX) is important while creating debugs otherwise no one will ever use them. Try to think about that while implementing the next steps. For those reasons, only features (and small UI advices) will be given8**
+
+### Step 2
+
+Let's start with a simple visualization : create a debug to inspect the content of the `TextureMgr`. In a dedicated window, here are a list of feature I want you to implement :
+- Being able to visualize all resources loaded in the `TextureMgr`. That include name/path, `sAnimationData`, sf::Texture information such as height, width...
+- Add a ref count to `sTextureData` to determine how many `SpriteComponent` use this texture (you might need to change few things in your engine). Display which texture is used or not (by changing its color in the window for instance)
+
+### Step 3
+
+Let's continue with a debug panel : create a tab to inspect all entity in our scene : 
 - Display the list of entities in our scene
-- For the selected entity:
-  * Display the list of component
-  * Data of each component
-  * Add a new component dynamically
-- Add a new entity
-- Select another texture in the `SpriteComponent`, select another animation...
-- ...
+- Being able to add a new entity, and to remove one
+- Being able to inspect the components of an entity and modify their value
+  * Being able to update data in the `TransformComponent` that will update the global display of the scene.
+  * Being able to have information about which animation is played, which frame... And being able to change the texture/animation at runtime. To do so, it would be a good idea not to let the user writting things but to have a UI that will displayed the possible choice.
+- Being able to add/remove a component from an entity.
