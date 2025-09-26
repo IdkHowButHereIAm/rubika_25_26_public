@@ -42,3 +42,9 @@ void GameMgr::AddEntity(Entity* entity)
 	Entities.push_back(entity);
 	entity->Start();
 }
+
+void GameMgr::DeleteEntity()
+{
+	if (!Entities.empty())
+		Entities.pop_back();
+}

@@ -1,7 +1,14 @@
 #include "Logger.h"
 
+#include <SFML/System/Vector3.hpp>
+
 #include "Imgui/imgui.h"
 #include "Debugs.h"
+#include "Entity.h"
+#include "GameMgr.h"
+#include "Globals.h"
+#include "SpriteComponent.h"
+#include "TransformComponent.h"
 
 void Logger::Info(const std::string& message)
 {
@@ -39,8 +46,12 @@ void Logger::PushNewMessage(const sMessageInfo& message)
 
 void Logger::Draw()
 {
-	if (ImGui::Begin("Console"))
+	/*if (ImGui::Begin("Console"))
 	{
+		if (ImGui::Checkbox("Info", &DisplayInfoMessage))
+		{
+		}
+
 		if (ImGui::Checkbox("Info", &DisplayInfoMessage))
 		{
 		}
@@ -124,6 +135,25 @@ void Logger::Draw()
 			ImGui::EndTable();
 		}
 
+	}
+	ImGui::End();
+*/
+	
+	if (ImGui::Begin("Debug"))
+	{
+		if (ImGui::Button("Spawn"))
+		{
+			Entity* test = new Entity();
+			 sf::Vector2f vec  (rand() % 200, rand() % 200); 
+			test->GetComponent<TransformComponent>()->SetPosition(vec);
+			test->GetComponent<SpriteComponent>()->SetTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/IsaacSprite.png");
+			test->GetComponent<SpriteComponent>()->SetAnimation("Body_Vertical");
+			Globals::Instance().GameMgr->AddEntity(test);	
+		}
+		if (ImGui::Button("Delete"))
+		{
+			Globals::Instance().GameMgr->DeleteEntity();
+		}
 	}
 	ImGui::End();
 }

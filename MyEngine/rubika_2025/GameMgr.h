@@ -20,6 +20,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	void AddEntity(Entity* entity);
+	void DeleteEntity();
 private:
 	std::vector<Entity*> Entities;
 };

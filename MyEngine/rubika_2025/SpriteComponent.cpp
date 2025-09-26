@@ -4,8 +4,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include "Entity.h"
 #include "Globals.h"
 #include "TextureMgr.h"
+#include "TransformComponent.h"
 
 
 SpriteComponent::SpriteComponent(Entity& entity) : IComponent(entity)
@@ -42,9 +44,12 @@ void SpriteComponent::Draw(sf::RenderWindow& window) const
     sprite.setTextureRect(sf::IntRect(
         {animation_data_.StartX + (animation_data_.OffsetX + animation_data_.SizeX)*currentAnimIndex, animation_data_.StartY},
         {animation_data_.SizeX, animation_data_.SizeY}));
+
+    sf::RenderStates render_state;
+    render_state.transform = GetEntity().GetComponent<TransformComponent>()->GetMatrix();
+
+    window.draw(sprite, render_state);
     
-    sprite.setPosition({10.f, 50.f});
-    window.draw(sprite);
 }
 
 void SpriteComponent::SetTexture(const std::string& textureName)

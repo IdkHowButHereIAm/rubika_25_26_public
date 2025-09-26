@@ -27,11 +27,6 @@ int main()
     Globals::Instance().Init();
 
     Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/IsaacSprite.png");
-       
-    Entity* test = new Entity();
-    test->GetComponent<SpriteComponent>()->SetTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/IsaacSprite.png");
-    test->GetComponent<SpriteComponent>()->SetAnimation("Body_Vertical");
-    Globals::Instance().GameMgr->AddEntity(test);
 
     sf::Clock clock;
     clock.restart();

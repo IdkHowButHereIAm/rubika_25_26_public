@@ -29,5 +29,5 @@ void Debugs::DeleteInstance()
 
 void Debugs::DrawDebug()
 {
-	// Draw your debug window here
+	Logger::DrawLogger();
 }

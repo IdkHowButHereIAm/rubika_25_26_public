@@ -66,7 +66,6 @@ public:
 	C* GetComponent() const;
 
 
-
 	protected:
 
 	std::vector<IComponent*> Components;
