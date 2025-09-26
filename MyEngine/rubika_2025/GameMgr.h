@@ -16,7 +16,7 @@ public:
 	GameMgr();
 	~GameMgr();
 
-	void Update(float deltaTime);
+	void Update(float deltaTime) const;
 	void Draw(sf::RenderWindow& window);
 
 	void AddEntity(Entity* entity);

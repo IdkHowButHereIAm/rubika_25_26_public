@@ -28,8 +28,9 @@ void Globals::Destroy()
 {
 }
 
-void Globals::Update()
+void Globals::Update(float deltatime) const
 {
+    GameMgr->Update(deltatime);
 }
 
 void Globals::Draw(sf::RenderWindow& window) const

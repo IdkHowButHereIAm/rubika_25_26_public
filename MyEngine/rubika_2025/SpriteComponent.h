@@ -28,4 +28,7 @@ public:
 	private:
 	sTextureData m_p_texture_;
 	sAnimationData animation_data_;
+	float trueIndex = 0;
+	bool isPlaying;
+	mutable int currentAnimIndex = 0;
 };

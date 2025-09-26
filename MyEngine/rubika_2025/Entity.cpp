@@ -27,6 +27,10 @@ void Entity::Start()
 
 void Entity::Update(float fDeltaTime)
 {
+    for (const auto element : Components)
+    {
+        element->Update(fDeltaTime);
+    }
 }
 
 void Entity::Destroy()

@@ -16,7 +16,7 @@ GameMgr::~GameMgr()
 	Entities.clear();
 }
 
-void GameMgr::Update(float deltaTime)
+void GameMgr::Update(float deltaTime) const
 {
 	for (Entity* e : Entities)
 	{

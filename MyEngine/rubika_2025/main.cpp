@@ -26,12 +26,19 @@ int main()
 
     Globals::Instance().Init();
 
+    Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/IsaacSprite.png");
+       
+    Entity* test = new Entity();
+    test->GetComponent<SpriteComponent>()->SetTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/IsaacSprite.png");
+    test->GetComponent<SpriteComponent>()->SetAnimation("Body_Vertical");
+    Globals::Instance().GameMgr->AddEntity(test);
+
     sf::Clock clock;
     clock.restart();
 
     while (window.isOpen())
     {
-        Globals::Instance().Update();
+        Globals::Instance().Update(clock.getElapsedTime().asSeconds());
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "Frame %llu", uFrameCount);
 
         int deltaTimeMicroS = clock.getElapsedTime().asMicroseconds();
@@ -67,24 +74,20 @@ int main()
         window.clear();
       
 
-        Globals::Instance().TextureMgr->LoadTexture("C:/Users/p.farin/Documents/GitHub/rubika_25_26_public/MyEngine/Ressources/enemy_texture_1.png");
-        Entity* test = new Entity();
-        test->GetComponent<SpriteComponent>()->SetTexture("enemy_texture_1");
-        Globals::Instance().GameMgr->AddEntity(test);
 
-        sf::Sprite sprite(Globals::Instance().TextureMgr->GetTextureData("vroom").Texture);
-        sprite.setScale(sf::Vector2f(0.25f, 0.25f));
+        //sf::Sprite sprite(Globals::Instance().TextureMgr->GetTextureData("vroom").Texture);
+        //sprite.setScale(sf::Vector2f(0.25f, 0.25f));
         
-        window.draw(sprite);
+        //window.draw(sprite);
 
         ImGui::SFML::Render(window);
+        Globals::Instance().Draw(window);
         window.display();
 
         PROFILER_EVENT_END();
 
         PROFILER_EVENT_END();
         ++uFrameCount;
-        Globals::Instance().Draw(window);
     }
 
     ImGui::SFML::Shutdown();

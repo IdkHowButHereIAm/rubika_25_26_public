@@ -16,7 +16,7 @@ public:
 	static Globals& Instance();
 	void Init();
 	void Destroy();
-	void Update();
+	void Update(float deltatime) const;
 	void Draw(sf::RenderWindow& window) const;
 	TextureMgr* TextureMgr;
 	GameMgr* GameMgr;
