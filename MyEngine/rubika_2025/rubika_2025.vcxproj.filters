@@ -16,6 +16,12 @@
     <Filter Include="Source Files\ImGui">
       <UniqueIdentifier>{ef6971b7-0fe8-4482-a7ec-dea41311ec4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Visitor">
+      <UniqueIdentifier>{d81f7d45-ba88-402f-8a57-2963c9ebe0ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Visitor">
+      <UniqueIdentifier>{cea42fd3-4129-45f2-a735-b27221cf263e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +60,12 @@
     <ClCompile Include="Debugs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SerializeVisitable.cpp">
+      <Filter>Source Files\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializeVisitor.cpp">
+      <Filter>Source Files\Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -88,6 +100,18 @@
     </ClInclude>
     <ClInclude Include="Debugs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IVisitable.h">
+      <Filter>Header Files\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="IVisitor.h">
+      <Filter>Header Files\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializeVisitor.h">
+      <Filter>Header Files\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializeVisitable.h">
+      <Filter>Header Files\Visitor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

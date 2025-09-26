@@ -247,3 +247,62 @@ Let's continue with a debug panel : create a tab to inspect all entity in our sc
   * Being able to update data in the `TransformComponent` that will update the global display of the scene.
   * Being able to have information about which animation is played, which frame... And being able to change the texture/animation at runtime. To do so, it would be a good idea not to let the user writting things but to have a UI that will displayed the possible choice.
 - Being able to add/remove a component from an entity.
+
+## Threshold 4
+
+The purpose of this threshold is to discover a very important design patterns : 
+- **visitor :** It consists in splitting logic and data structure.
+A small object (the visitor) will run over the entire object hierarchy, element after element (the visitables). For each visitable, the visitor will execute some logic and will visit the next visitable (if applicable), letting the all hieratchy untouched. 
+- **factory :** It consists in creating a specific object based on a string, an id, an enum...
+
+### Step 0
+
+We are going to use the visitor design pattern to serialize an entity. A visitor will be created that will visit an entity and its components to save their current state in a xml file that will be save on your disk. **Only the mandatory data to retrieve the same state must be serialized**.
+
+To do so, lots of file has been added to the project:
+- `Ivisitable.h` and `IVisitor.h` contain the base class for visitor/visitable objects
+- `SerializeVisitor.h` contains the visitor that will visit the entity hierarchy to save its state. 
+- `SerializeVisitable.h` contains the base that must be inherited by all our objects that must be serialized.
+- `SerializeVisitor.cpp` and `SerializeVisitable.cpp` contain the implementation of the corresponding classes.
+
+To resolve the polymorphic aspect, a visitor and a visitable must works by pair.
+- The `visitor` doesn't know any thing about the current hierarchy, what it is processing... So it's job is to... start the visit and finish it. The rest is handled by the `visitable`.
+- The `visitable`must only accept a `visitor`, do it is supposed to do and call the visitor over its own children. In our case, it will serialize itself and then use the visit function from the `visitor` on its children so that they could be serialized.
+
+The `visitor` part has already be implemented to guide you, you only need to implement the `visitable` part on your `Entity` and your `component`.
+
+1. In your `Entity` and your components, add the `SerializeVisitable` as a parent of your class
+2. A macro `GENERATE_SERIALIZE_TOKEN` has been added. It must be added (with the right name) in your header, inside a public part.
+3. Implement the `Accept` function
+```
+virtual void Accept(SerializeVisitor* visitor, rapidxml::xml_node<>* parent = nullptr) override;
+```
+
+### Step 2
+
+If all your `visitable` has been implemented you can test the Visitor behavior. Create an entity with various components... Then instantiate a `SerializeVisitor` and call its `Visit` method over the entity. An xml has been created in memory that you can save using the corresponding.
+
+### Step 3
+
+Now that we can serialize an entity to an xml file, the next thing to do is to create an `Entity` using the xml file. 
+To do so, two steps are needed:
+- Create a `Factory` class that can create any component or entity using its type name (that has been generated using the `GENERATE_SERIALIZE_TOKEN`) function.
+- Implement the `Deserialize` part of our visitable to init any component using the right node of the xml.
+
+**The Serialze function and the Deserialize one must be symetric. Everything written must be read**
+
+1. For now, the simplest implemetation of the `Factory` design pattern will be sufficient (using a big if/else which will test all possible name to determine which one must be created). A more complex one will be implemented later using code generarion...
+To do so, implement the function
+```
+static IComponent* FactoryByName(const char* serializeToken, Entity& entity);
+```
+
+2. We have now a way to create any component using its name, we can implement the `Accept` function.
+```
+virtual void Accept(DeserializeVisitor* visitor, rapidxml::xml_node<>* node) override;
+```
+This function will be called for each created component (and the entity itself) with the right xml node. It must use this node to retrieve all stored data and initialize itsef. Then it **must** call the `Visit` function over its own childer if applicable
+
+### Step 4
+
+Now you should be able to create a working entity using an registered xml file. You can know add features in your `Debugs` class to have access to those features. 

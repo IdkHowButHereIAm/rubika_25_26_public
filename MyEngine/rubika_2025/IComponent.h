@@ -24,6 +24,8 @@ public:
 
 	virtual void Destroy() = 0;
 
+	static IComponent* FactoryByName(const char* serializeToken, Entity& entity);
+
 protected:
 	Entity& GetEntity() const;
 
