@@ -1,0 +1,18 @@
+<Backgrounds>
+    <Tile Name="Rock1">
+        <X>0</X>
+        <Y>0</Y>
+        <SizeX>32</SizeX>
+        <SizeY>32</SizeY>
+        <RevertedX>0</RevertedX>
+        <RevertedY>0</RevertedY>
+    </Tile>
+        <Tile Name="Rock2">
+        <X>32</X>
+        <Y>32</Y>
+        <SizeX>32</SizeX>
+        <SizeY>32</SizeY>
+        <RevertedX>1</RevertedX>
+        <RevertedY>0</RevertedY>
+    </Tile>
+</Backgrounds>

@@ -1,0 +1,13 @@
+<Animations>
+    <Animation Name="Default_Tear">
+        <X>0</X>
+        <Y>0</Y>
+        <SizeX>6</SizeX>
+        <SizeY>6</SizeY>
+        <OffsetX>0</OffsetX>
+        <OffsetY>0</OffsetY>
+        <SpriteNum>1</SpriteNum>
+        <SpritesOnLine>1</SpritesOnLine>
+        <Reverted>0</Reverted>
+    </Animation>
+</Animations>

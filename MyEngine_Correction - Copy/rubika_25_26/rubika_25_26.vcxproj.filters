@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{9aed78c8-658d-4b37-ba0f-f75650330c53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Gameplay">
+      <UniqueIdentifier>{8b2e930e-3ab9-4118-9c6b-0bbb5281788c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Gameplay\Components">
+      <UniqueIdentifier>{416fe88d-3ba1-4cee-9ccc-8d8a87c87ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Render">
+      <UniqueIdentifier>{26071122-b7e5-4489-a0f5-dbdffdee0bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Render\Drawable">
+      <UniqueIdentifier>{76c92cfb-4fff-41fd-bd49-c439554142fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{c2befe64-6323-4544-b4a8-664bb67b9c48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Gameplay">
+      <UniqueIdentifier>{aa783f2e-1eb7-4157-abc7-eb0bce344c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Gameplay\Components">
+      <UniqueIdentifier>{4a60a4dc-daff-4a24-be3a-c487b2aec16f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Render">
+      <UniqueIdentifier>{049ab37e-8023-49ba-9ffb-fa7d5223a6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Render\Drawable">
+      <UniqueIdentifier>{2a2e6e66-dbf0-4a73-98d9-8ada42b3109c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{84b8e061-25be-4d38-9d1d-ce4844a5ec9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Render\Ressource">
+      <UniqueIdentifier>{8895b0f1-8e2f-45d6-8151-6a6379601a0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Render\Drawable\Sprite">
+      <UniqueIdentifier>{c4708b58-066e-4428-9835-65307625f4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Render\Drawable\StaticShape">
+      <UniqueIdentifier>{112bfc9d-ef9d-465e-997c-797acf37c4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Render\Ressource">
+      <UniqueIdentifier>{a9bb06b6-e39f-491d-82bc-a87329e709d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Render\Drawable\Sprite">
+      <UniqueIdentifier>{11b707cc-7788-4733-b8dc-f9e89d715fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Render\Drawable\StaticShape">
+      <UniqueIdentifier>{d25802de-2ae5-41b0-a50e-59969f7bc32f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Gameplay\Components\Renderer">
+      <UniqueIdentifier>{6067c5a5-9b67-4dad-8912-175995e069dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Gameplay\Components\Transform">
+      <UniqueIdentifier>{5bed2a0b-d625-40a7-a0f9-821629e34915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Gameplay\Components\Renderer">
+      <UniqueIdentifier>{a37c625a-98ec-429e-b1c3-32ea5030865b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Gameplay\Components\Transform">
+      <UniqueIdentifier>{a736c866-8bbc-4923-bb98-2e7d429bfe37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Gameplay\Entity">
+      <UniqueIdentifier>{9ca61af4-3032-483c-83ca-92942127a6e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Gameplay\Entity">
+      <UniqueIdentifier>{17cc0963-da75-49d0-939e-c8b85835faaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Dependencies">
+      <UniqueIdentifier>{32b37fc2-89a6-431d-9f46-d2ce5894c2c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Dependencies\Imgui">
+      <UniqueIdentifier>{a52f5912-8e1f-421f-8974-afce4bccc575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Console">
+      <UniqueIdentifier>{8cc92813-e892-4cd1-a173-648880fda97d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Console">
+      <UniqueIdentifier>{cad9db16-4f6d-4a63-b286-14af3b1af3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Debug">
+      <UniqueIdentifier>{43203693-88ca-4439-abcf-eae91ba735df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Debug">
+      <UniqueIdentifier>{1995f755-a1a5-418f-82ba-3a6004bb3c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Random">
+      <UniqueIdentifier>{51535b34-c87a-4317-9d2c-47c6e02c7713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Random">
+      <UniqueIdentifier>{e3e1e374-e39b-45db-8f6b-4ac6709f7eb8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\Render\Ressource\TextureMgr.cpp">
+      <Filter>Source Files\Engine\Render\Ressource</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\Drawable\IDrawable.cpp">
+      <Filter>Source Files\Engine\Render\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\Drawable\StaticShape\StaticRectangle.cpp">
+      <Filter>Source Files\Engine\Render\Drawable\StaticShape</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\Drawable\Sprite\Sprite.cpp">
+      <Filter>Source Files\Engine\Render\Drawable\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Gameplay\Component\Transform\Transform.cpp">
+      <Filter>Source Files\Engine\Gameplay\Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Gameplay\Component\Renderer\Renderer.cpp">
+      <Filter>Source Files\Engine\Gameplay\Components\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Gameplay\Component\IComponent.cpp">
+      <Filter>Source Files\Engine\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Gameplay\Entity\Entity.cpp">
+      <Filter>Source Files\Engine\Gameplay\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Main.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\Imgui\imgui.cpp">
+      <Filter>Source Files\Engine\Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\Imgui\imgui_demo.cpp">
+      <Filter>Source Files\Engine\Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\Imgui\imgui_draw.cpp">
+      <Filter>Source Files\Engine\Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\Imgui\imgui_tables.cpp">
+      <Filter>Source Files\Engine\Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\Imgui\imgui_widgets.cpp">
+      <Filter>Source Files\Engine\Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\Imgui\imgui-SFML.cpp">
+      <Filter>Source Files\Engine\Dependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Console\LogConsole.cpp">
+      <Filter>Source Files\Engine\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\DebugMgr.cpp">
+      <Filter>Source Files\Engine\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Globals.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Gameplay\GameMgr.cpp">
+      <Filter>Source Files\Engine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Random\RandomMgr.cpp">
+      <Filter>Source Files\Engine\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Random\Perlin.cpp">
+      <Filter>Source Files\Engine\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Random\DrunkardWalk.cpp">
+      <Filter>Source Files\Engine\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Random\CellularAutomata.cpp">
+      <Filter>Source Files\Engine\Random</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Render\Ressource\TextureMgr.h">
+      <Filter>Header Files\Engine\Render\Ressource</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\Drawable\IDrawable.h">
+      <Filter>Header Files\Engine\Render\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\Drawable\Sprite\Sprite.h">
+      <Filter>Header Files\Engine\Render\Drawable\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\Drawable\StaticShape\StaticRectangle.h">
+      <Filter>Header Files\Engine\Render\Drawable\StaticShape</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\Component\Transform\Transform.h">
+      <Filter>Header Files\Engine\Gameplay\Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\Component\Renderer\Renderer.h">
+      <Filter>Header Files\Engine\Gameplay\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\Component\Renderer\Renderer.hxx">
+      <Filter>Header Files\Engine\Gameplay\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\Component\IComponent.h">
+      <Filter>Header Files\Engine\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\Entity\Entity.h">
+      <Filter>Header Files\Engine\Gameplay\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\Entity\Entity.hxx">
+      <Filter>Header Files\Engine\Gameplay\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Console\LogConsole.h">
+      <Filter>Header Files\Engine\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\DebugMgr.h">
+      <Filter>Header Files\Engine\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Profiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Gameplay\GameMgr.h">
+      <Filter>Header Files\Engine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Random\RandomMgr.h">
+      <Filter>Header Files\Engine\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Random\Perlin.h">
+      <Filter>Header Files\Engine\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Random\DrunkardWalk.h">
+      <Filter>Header Files\Engine\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Random\CellularAutomata.h">
+      <Filter>Header Files\Engine\Random</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
