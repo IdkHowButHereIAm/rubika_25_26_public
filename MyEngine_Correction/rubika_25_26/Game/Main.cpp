@@ -129,6 +129,8 @@ int main()
 
     while (window.isOpen() && !gData.ExitApp)
     {
+        gData.TaskMgr->ResetPhase();
+
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "Frame %llu", gData.FrameCount);
         {
             int deltaTimeMS = clock.getElapsedTime().asMilliseconds();
@@ -155,9 +157,12 @@ int main()
             }
             PROFILER_EVENT_END();
 
+            PopulateDraw();
+            PopulateUpdate();
+
+
             PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Update");
             {
-                //PopulateUpdate();
 
                 gData.TaskMgr->StartPhase(TaskMgr::ePhase::Update);
 #ifdef _USE_IMGUI
@@ -170,10 +175,10 @@ int main()
             }
             PROFILER_EVENT_END();
 
+            gData.TaskMgr->ResetPhase();
+
             PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
             {
-                //PopulateDraw();
-
                 gData.TaskMgr->StartPhase(TaskMgr::ePhase::Draw);
 
                 PROFILER_EVENT_BEGIN(PROFILER_COLOR_BROWN, "Debug Draw");
@@ -202,6 +207,7 @@ int main()
         }
         PROFILER_EVENT_END();
         ++gData.FrameCount;
+        gData.TaskMgr->ResetPhase();
     }
 
     gData.ExitApp = true;

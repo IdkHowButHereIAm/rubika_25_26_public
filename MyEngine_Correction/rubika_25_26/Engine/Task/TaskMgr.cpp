@@ -104,22 +104,32 @@ void TaskMgr::WaitPhase()
 	//std::unique_lock<std::mutex> lock(FinishedMutex);
 	//FinishedConditionWorkerSync.wait(lock, [this]()
 	//	{
-	//		return WorkerSyncActiveJobs == 0 && !HasAvailableJob();
+	//		if (CurrentPhase == ePhase::Update && UpdateActiveJobs == 0)
+	//		{
+	//			return true;
+	//		}
+	//
+	//		if (CurrentPhase == ePhase::Draw && DrawActiveJobs == 0)
+	//		{
+	//			return true;
+	//		}
+	//
+	//		return false;
 	//	});
 
 	while (true)
 	{
-
+	
 		if (CurrentPhase == ePhase::Update && UpdateActiveJobs == 0)
 		{
 			return;
 		}
-
+	
 		if (CurrentPhase == ePhase::Draw && DrawActiveJobs == 0)
 		{
 			return;
 		}
-
+	
 		//Sleep(1);
 	}
 }
@@ -217,7 +227,7 @@ void TaskMgr::WorkerSyncLoop()
 				break;
 
 			default:
-				assert(false);
+				continue;
 			}
 		}
 
