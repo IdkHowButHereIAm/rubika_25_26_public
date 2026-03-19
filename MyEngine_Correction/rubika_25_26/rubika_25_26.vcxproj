@@ -256,6 +256,8 @@
     <ClCompile Include="Engine\Gameplay\Entity\Entity.cpp" />
     <ClCompile Include="Engine\Gameplay\GameMgr.cpp" />
     <ClCompile Include="Engine\Globals.cpp" />
+    <ClCompile Include="Engine\Input\InputMgr.cpp" />
+    <ClCompile Include="Engine\Input\PlayerInputAction.cpp" />
     <ClCompile Include="Engine\Random\CellularAutomata.cpp" />
     <ClCompile Include="Engine\Random\DrunkardWalk.cpp" />
     <ClCompile Include="Engine\Random\Perlin.cpp" />
@@ -264,6 +266,7 @@
     <ClCompile Include="Engine\Render\Drawable\Sprite\Sprite.cpp" />
     <ClCompile Include="Engine\Render\Drawable\StaticShape\StaticRectangle.cpp" />
     <ClCompile Include="Engine\Render\Ressource\TextureMgr.cpp" />
+    <ClCompile Include="Engine\Task\TaskMgr.cpp" />
     <ClCompile Include="Game\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +280,10 @@
     <ClInclude Include="Engine\Gameplay\Entity\Entity.hxx" />
     <ClInclude Include="Engine\Gameplay\GameMgr.h" />
     <ClInclude Include="Engine\Globals.h" />
+    <ClInclude Include="Engine\Input\InputAction.h" />
+    <ClInclude Include="Engine\Input\InputMgr.h" />
+    <ClInclude Include="Engine\Input\Player0KeyboardDefaultBind.h" />
+    <ClInclude Include="Engine\Input\PlayerInputAction.h" />
     <ClInclude Include="Engine\Profiler.h" />
     <ClInclude Include="Engine\Random\CellularAutomata.h" />
     <ClInclude Include="Engine\Random\DrunkardWalk.h" />
@@ -286,6 +293,7 @@
     <ClInclude Include="Engine\Render\Drawable\Sprite\Sprite.h" />
     <ClInclude Include="Engine\Render\Drawable\StaticShape\StaticRectangle.h" />
     <ClInclude Include="Engine\Render\Ressource\TextureMgr.h" />
+    <ClInclude Include="Engine\Task\TaskMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

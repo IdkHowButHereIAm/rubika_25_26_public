@@ -3,12 +3,16 @@
 #include <Engine/Debug/DebugMgr.h>
 
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include <rapidxml/rapidxml.hpp>
 
 #include <unordered_map>
 #include <filesystem>
 #include <string>
 #include <atomic>
+#include <functional>
+#include <set>
+#include <mutex>
 
 struct AnimationData
 {
@@ -42,6 +46,7 @@ struct TextureData
 	~TextureData();
 
 	sf::Texture Texture;
+	sf::Image Image;
 	std::unordered_map<std::string, AnimationData> AnimationsData;
 	std::unordered_map<std::string, StaticTileData> StaticTilesData;
 
@@ -61,11 +66,16 @@ public:
 	~TextureMgr();
 
 	void Init();
+	void Update();
 	void Shut();
 
-	bool LoadTexture(const std::filesystem::path& path);
+	using TextureLoadedCallback = std::function<void(const TextureData*)>;
 
-	const TextureData& GetTextureData(const std::string& name) const;
+	bool LoadTexture(const std::filesystem::path& path);
+	void LoadTextureAsync(const std::filesystem::path& path, TextureLoadedCallback callback);
+
+	const TextureData* GetTextureData(const std::string& name) const;
+	TextureData* GetTextureData(const std::string& name);
 
 	static const sf::Texture& GetEmptyTexture();
 	static const sf::Texture& GetMissingTexture();
@@ -75,7 +85,21 @@ public:
 private:
 	std::unordered_map<std::string, TextureData> Textures;
 
+	bool CheckTextureDependencies(const std::filesystem::path& texturePath);
+	bool LoadTextureAndDependencies(const std::filesystem::path& texturePath);
 	bool LoadTextureMetadata(const std::filesystem::path& path, TextureData& textureData);
 	bool LoadAnimationMetadata(rapidxml::xml_node<>* node, TextureData& textureData);
 	bool LoadStaticTileMetadata(rapidxml::xml_node<>* node, TextureData& textureData);
+
+	struct sLoadCallback
+	{
+		std::vector<TextureLoadedCallback> Callbacks;
+	};
+	std::unordered_map<std::filesystem::path, sLoadCallback> Requesting;
+	std::set<std::filesystem::path> CallbacksNextFrame;
+
+	mutable std::mutex TexturesMutex;
+	mutable std::mutex CallbacksNextFrameMutex;
+
+	void LoadTexture_Thread(const std::filesystem::path& path);
 };

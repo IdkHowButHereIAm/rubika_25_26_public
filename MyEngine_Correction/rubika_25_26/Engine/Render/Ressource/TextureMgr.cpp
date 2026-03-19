@@ -1,6 +1,8 @@
 #include "TextureMgr.h"
 
 #include <Engine/Globals.h>
+#include <Engine/Task/TaskMgr.h>
+#include <Engine/Profiler.h>
 #include <rapidxml/rapidxml_utils.hpp>
 
 #ifdef _USE_IMGUI
@@ -29,6 +31,52 @@ TextureMgr::~TextureMgr()
 void TextureMgr::Init()
 {
 	gData.DebugMgr->RegisterDebugableWindow("TextureMgr", this);
+}
+
+void TextureMgr::Update()
+{
+	CallbacksNextFrameMutex.lock();
+	std::set<std::filesystem::path> localCallkacks;
+	std::swap(localCallkacks, CallbacksNextFrame);
+	CallbacksNextFrameMutex.unlock();
+
+	for (const std::filesystem::path& id : localCallkacks)
+	{
+		auto it = Requesting.find(id);
+		if (it != Requesting.end())
+		{
+			const sLoadCallback& data = it->second;
+			TextureData* textureData = GetTextureData(id.string());
+			if (textureData)
+			{
+				PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "Load Texture from main");
+
+				if (textureData->Image.getPixelsPtr())
+				{
+					if (!textureData->Texture.loadFromImage(textureData->Image))
+					{
+						assert(false);
+					}
+				}
+				else
+				{
+					textureData->Texture = GetMissingTexture();
+				}
+				PROFILER_EVENT_END();
+
+			}
+
+			for (int i = 0; i < data.Callbacks.size(); ++i)
+			{
+				gData.TaskMgr->RegisterTask([f = data.Callbacks[i], textureData]()
+					{
+						f(textureData);
+					}, TaskMgr::ePhase::Worker);
+			}
+
+			Requesting.erase(it);
+		}
+	}
 }
 
 void TextureMgr::Shut()
@@ -77,10 +125,78 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& path)
 	return true;
 }
 
-const TextureData& TextureMgr::GetTextureData(const std::string& name) const
+void TextureMgr::LoadTextureAsync(const std::filesystem::path& path, TextureLoadedCallback callback)
 {
-	assert(Textures.find(name) != Textures.end());
-	return Textures.at(name);
+	const TextureData* texture = GetTextureData(path.string());
+	if (texture)
+	{
+		gData.TaskMgr->RegisterTask([this, path, callback]()
+			{
+				const TextureData* texture = GetTextureData(path.string());
+				callback(texture);
+			}, TaskMgr::ePhase::Worker);
+		return;
+	}
+
+	auto it = Requesting.find(path);
+	if (it == Requesting.end())
+	{
+		auto itEmplace = Requesting.emplace(std::piecewise_construct,
+			std::forward_as_tuple(path),
+			std::forward_as_tuple());
+		if (itEmplace.second)
+		{
+			sLoadCallback& data = itEmplace.first->second;
+			data.Callbacks.push_back(callback);
+
+			gData.TaskMgr->RegisterTask([this, path]()
+				{
+					LoadTexture_Thread(path);
+				}, TaskMgr::ePhase::Worker);
+		}
+		else
+		{
+			gData.TaskMgr->RegisterTask([callback]()
+				{
+					callback(nullptr);
+				}, TaskMgr::ePhase::Worker);
+		}
+	}
+	else
+	{
+		sLoadCallback& data = it->second;
+		data.Callbacks.push_back(callback);
+	}
+}
+
+const TextureData* TextureMgr::GetTextureData(const std::string& name) const
+{
+	const TextureData* ret = nullptr;
+
+	TexturesMutex.lock();
+	auto it = Textures.find(name);
+	if (it != Textures.end())
+	{
+		ret = &it->second;
+	}
+	TexturesMutex.unlock();
+
+	return ret;
+}
+
+TextureData* TextureMgr::GetTextureData(const std::string& name)
+{
+	TextureData* ret = nullptr;
+
+	TexturesMutex.lock();
+	auto it = Textures.find(name);
+	if (it != Textures.end())
+	{
+		ret = &it->second;
+	}
+	TexturesMutex.unlock();
+
+	return ret;
 }
 
 sf::Texture emptyTexture;
@@ -94,6 +210,62 @@ const sf::Texture& TextureMgr::GetMissingTexture()
 {
 	return emptyTexture;
 }
+
+bool TextureMgr::CheckTextureDependencies(const std::filesystem::path& texturePath)
+{
+	if (!std::filesystem::exists(texturePath))
+	{
+		return false;
+	}
+
+	std::filesystem::path metadataPath = texturePath;
+	metadataPath = metadataPath.replace_extension(".xml");
+	if (!std::filesystem::exists(metadataPath))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool TextureMgr::LoadTextureAndDependencies(const std::filesystem::path& texturePath)
+{
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "LoadTextureAndDependencies %s", texturePath.c_str());
+
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLUE, "Load Image");
+
+	TexturesMutex.lock();
+	auto p = Textures.emplace(std::piecewise_construct,
+		std::forward_as_tuple(texturePath.string()),
+		std::forward_as_tuple());
+	TextureData& textureData = p.first->second;
+	TexturesMutex.unlock();
+
+	if (!textureData.Image.loadFromFile(texturePath.generic_string()))
+	{
+		PROFILER_EVENT_END();
+		PROFILER_EVENT_END();
+		return false;
+	}
+	PROFILER_EVENT_END();
+
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Load Metadata");
+
+	std::filesystem::path metadataPath = texturePath;
+	metadataPath = metadataPath.replace_extension(".xml");
+	if (!LoadTextureMetadata(metadataPath, textureData))
+	{
+		PROFILER_EVENT_END();
+		PROFILER_EVENT_END();
+
+		return false;
+	}
+	PROFILER_EVENT_END();
+
+	PROFILER_EVENT_END();
+	return true;
+}
+
 
 bool TextureMgr::LoadTextureMetadata(const std::filesystem::path& path, TextureData& textureData)
 {
@@ -286,6 +458,26 @@ bool TextureMgr::LoadStaticTileMetadata(rapidxml::xml_node<>* node, TextureData&
 	}
 
 	return true;
+}
+
+void TextureMgr::LoadTexture_Thread(const std::filesystem::path& path)
+{
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Requesting %s", path.filename().c_str());
+
+	if (!CheckTextureDependencies(path) || !LoadTextureAndDependencies(path))
+	{
+		TexturesMutex.lock();
+		auto p = Textures.emplace(std::piecewise_construct,
+			std::forward_as_tuple(path.string()),
+			std::forward_as_tuple());
+		TexturesMutex.unlock();
+	}
+
+	CallbacksNextFrameMutex.lock();
+	CallbacksNextFrame.insert(path);
+	CallbacksNextFrameMutex.unlock();
+
+	PROFILER_EVENT_END();
 }
 
 void TextureMgr::DrawDebug()

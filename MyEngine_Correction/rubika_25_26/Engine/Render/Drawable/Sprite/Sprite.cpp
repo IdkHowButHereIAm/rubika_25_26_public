@@ -13,8 +13,8 @@ Sprite::~Sprite()
 {
 	if (CurrentTexture.size() != 0)
 	{
-		const TextureData& textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
-		textureData.Release();
+		const TextureData* textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
+		textureData->Release();
 	}
 
 	IDrawable::~IDrawable();
@@ -74,21 +74,21 @@ void Sprite::SetTexture(const std::string& textureName)
 {
 	if (CurrentTexture.size() != 0)
 	{
-		const TextureData& textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
-		textureData.Release();
+		const TextureData* textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
+		textureData->Release();
 	}
 
-	const TextureData& textureData = gData.TextureMgr->GetTextureData(textureName);
-	DrawableCasted->setTexture(textureData.Texture);
-	textureData.AddRef();
+	const TextureData* textureData = gData.TextureMgr->GetTextureData(textureName);
+	DrawableCasted->setTexture(textureData->Texture);
+	textureData->AddRef();
 
 	CurrentTexture = textureName;
 }
 
 void Sprite::SetAnimation(const std::string& animationName)
 {
-	const TextureData& textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
-	CurrentAnimationData  = textureData.AnimationsData.at(animationName);
+	const TextureData* textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
+	CurrentAnimationData  = textureData->AnimationsData.at(animationName);
 
 	CurrentAnimation = animationName;
 }
