@@ -196,9 +196,11 @@ void TaskMgr::WorkerSyncLoop()
 
 		std::function<void()> job;
 
+		ePhase p = CurrentPhase;
 		{
+
 			std::unique_lock<std::mutex> lock(QueueMutex);
-			switch (CurrentPhase)
+			switch (p)
 			{
 			case TaskMgr::ePhase::Draw:
 				if (TasksToRunOnDraw.empty())
@@ -221,11 +223,11 @@ void TaskMgr::WorkerSyncLoop()
 
 		job();
 
-		if (CurrentPhase == ePhase::Update)
+		if (p == ePhase::Update)
 		{
 			--UpdateActiveJobs;
 		}
-		if (CurrentPhase == ePhase::Draw)
+		if (p == ePhase::Draw)
 		{
 			--DrawActiveJobs;
 		}
