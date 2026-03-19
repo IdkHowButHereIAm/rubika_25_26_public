@@ -10,6 +10,8 @@
 #include <Engine/Gameplay/Component/Transform/Transform.h>
 #include <Engine/Gameplay/Component/Renderer/Renderer.h>
 #include <Engine/Render/Drawable/Sprite/Sprite.h>
+#include <Engine/Task/TaskMgr.h>
+#include <Engine/Input/InputMgr.h>
 
 #ifdef _USE_IMGUI
 #include "Imgui/imgui.h"
@@ -18,7 +20,39 @@
 
 #include <Engine/Profiler.h>
 
-Entity* CreateEntity()
+void PopulateUpdate()
+{
+    for (int i = 0; i < 5; ++i)
+    {
+        gData.TaskMgr->RegisterTask([i]()
+            {
+                PROFILER_EVENT_BEGIN(PROFILER_COLOR_DARK_BLUE, "Update %d", i);
+
+                Sleep(5);
+
+                PROFILER_EVENT_END();
+            },
+            TaskMgr::ePhase::Update);
+    }
+}
+
+void PopulateDraw()
+{
+    for (int i = 0; i < 5; ++i)
+    {
+        gData.TaskMgr->RegisterTask([i]()
+            {
+                PROFILER_EVENT_BEGIN(PROFILER_COLOR_DARK_BLUE, "Draw %d", i);
+
+                Sleep(5);
+
+                PROFILER_EVENT_END();
+            },
+            TaskMgr::ePhase::Draw);
+    }
+}
+
+Entity* CreateEntity(sf::Vector2f pos)
 {
     Entity* e = new Entity();
 
@@ -35,16 +69,19 @@ Entity* CreateEntity()
     Head->SetTexture("../Ressources/IsaacSprite.png");
     Head->SetAnimation("Head_Down");
 
-    TransformComp->SetWorldPosition(sf::Vector2f(150.f, 150.f));
+    TransformComp->SetWorldPosition(pos);
 
     return e;
 }
+
+unsigned SIZE_X = 1280;
+unsigned SIZE_Y = 720;
 
 int main()
 {
     gData.Init();
 
-    sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "MyEngine - Rubika 2025 2026");
+    sf::RenderWindow window(sf::VideoMode({ SIZE_X, SIZE_Y }), "MyEngine - Rubika 2025 2026");
     
 #ifdef _USE_IMGUI
     if (!ImGui::SFML::Init(window))
@@ -78,14 +115,19 @@ int main()
         return -4;
     }
 
-    Entity* entity = CreateEntity();
+    for (float x = 0; x < SIZE_X; x += 50)
+    {
+        for (float y = 0; y < SIZE_Y; y += 50)
+        {
+            gData.GameMgr->AddEntity(CreateEntity(sf::Vector2f(x, y)));
 
-    gData.GameMgr->AddEntity(entity);
+        }
+    }
 
     sf::Clock clock;
     clock.restart();
 
-    while (window.isOpen() && !gData.ExipApp)
+    while (window.isOpen() && !gData.ExitApp)
     {
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "Frame %llu", gData.FrameCount);
         {
@@ -101,28 +143,39 @@ int main()
                     if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     {
                         window.close();
-                        gData.ExipApp = true;
+                        gData.ExitApp = true;
                     }
 
 #ifdef _USE_IMGUI
                     ImGui::SFML::ProcessEvent(window, *event);
 #endif
                 }
+
+                gData.InputMgr->Update(fDeltaTimeS);
             }
             PROFILER_EVENT_END();
 
             PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Update");
             {
+                //PopulateUpdate();
+
+                gData.TaskMgr->StartPhase(TaskMgr::ePhase::Update);
 #ifdef _USE_IMGUI
                 ImGui::SFML::Update(window, imGuiTime);
 #endif
 
                 gData.GameMgr->Update(fDeltaTimeS);
+
+                gData.TaskMgr->WaitPhase();
             }
             PROFILER_EVENT_END();
 
             PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
             {
+                //PopulateDraw();
+
+                gData.TaskMgr->StartPhase(TaskMgr::ePhase::Draw);
+
                 PROFILER_EVENT_BEGIN(PROFILER_COLOR_BROWN, "Debug Draw");
                 gData.DebugMgr->Draw();
                 PROFILER_EVENT_END();
@@ -138,6 +191,8 @@ int main()
                 ImGui::SFML::Render(window);
                 PROFILER_EVENT_END();
 #endif
+                gData.TaskMgr->WaitPhase();
+
                 PROFILER_EVENT_BEGIN(PROFILER_COLOR_CYAN, "Window Display");
                 window.display();
                 PROFILER_EVENT_END();
@@ -149,7 +204,7 @@ int main()
         ++gData.FrameCount;
     }
 
-    gData.ExipApp = true;
+    gData.ExitApp = true;
 
     gData.Shut();
     gData.Destroy();

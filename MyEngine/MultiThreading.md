@@ -258,7 +258,38 @@ Our system works well, let's continue to use it smartly. We have already updated
 
 ### Step 0
 
-We could simply move the `LoadTexture` code inside a lambda and call it on a worker thread. But SFML has sone limitations, it is not possible to create a `sf::Texture` on a thread but it is possible to load the image, load the resources attached such as meta data files and create the `sf::Image` related. 
+Let's create two ways to load a texture. A sync one (the one we had) and an async one.
+
+We could simply move the `LoadTexture` code inside a lambda and call it on a worker thread or from the calling thread. But SFML has sone limitations, it is not possible to create a `sf::Texture` on a thread. We have to do that part on a the main thread but that is the only limitation we have. The metadata loading and parsing, loading the resource and create the related `sf::Image` is doable on a worker. 
+
+Add those two declarations to our `TextureMgr` : 
+```cpp
+	using TextureLoadedCallback = std::function<void(const TextureData*)>;
+
+	bool LoadTexture(const std::filesystem::path& path);
+	bool LoadTextureAsync(const std::filesystem::path& path, TextureLoadedCallback callback);
+```
+
+### Step 1
+
+Let's focus on the loading part first.
+As we said before, lots of work can be done on worker. So, the `LoadTextureAsync` should start a worker which loads and parses metadata, create a `sf::Image`. (Reuse the same function, do not duplicate code).
+
+At the end of that loading, the `TextureMgr` should be warned to execute the final loading part on main thread. A common way to do that is to add a queue of pending jobs that will be checked every frame during the update of the manager. This is what we are going to do. Create the appropriate container to store our pending request (**that will be filled on a thread and emptied on another. That must be protected!!!**). During the update, check if something needs to be unqueued and if so, convert the Image to a texture (clear the Image afterward, we don't need it anymore).
+
+### Step 1
+
+Let's deal with the callback that the requester gave us. We need to call it no matter what the result is (success or failure). Once we have dequeued a pending request, we have to call the function. The problem is that, at this moment, we are executing code on the main thread. We don't want to execute lots of unknown code during the `TextureMgr`'s update. If we have a lot of requests or if the callback function is pretty heacy, this will lead to a stutter. The solution is, once again, execute the callback on a worker.
+
+### Step 2
+
+Because the loading process can take some times (because we load a huge 4k assets with lots of metadata or because we are requesting lots of textures), it is possible that various systems request the same texture at the same time, or that a system request an already loaded texture. We have to handle all those cases (**in a protected way**).
+
+To do so, keep a track of every pending requests to avoid loading a texture that is being loaded but we have to call evert callback at the end of the loading process. Furthermore, we have to call the callback with the right information if the texture is already loaded.
+
+### Step 3
+
+Check that all access to the various containers used by several threads are protected to avoid random crashes, memory corruption...
 
 ### Threshold 5
 
@@ -270,3 +301,9 @@ Last time, we have implemented procedural generation algorithm (check [here](Pro
 - Protect the `RandomMgr` so that it can be called from anywhere (only the instance creation and deletion must be protected). `RandomInstance` were already designed to be thread-safe
 - If you have followed my architecture, everything is thread safe so the generation can be parallelized easily.
 - The "update texture" part must be run on the main thread.
+
+### Threshold 6
+
+Let's push the multi-threading part to its finest by paralellized entity updates.
+
+### Threshold 7

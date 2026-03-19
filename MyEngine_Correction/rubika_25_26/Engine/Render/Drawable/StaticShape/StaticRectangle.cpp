@@ -13,8 +13,8 @@ StaticRectangle::~StaticRectangle()
 {
 	if (CurrentTexture.size() != 0)
 	{
-		const TextureData& textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
-		textureData.Release();
+		const TextureData* textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
+		textureData->Release();
 	}
 
 	if (DrawableCasted)
@@ -59,21 +59,21 @@ void StaticRectangle::SetTexture(const std::string& textureName)
 {
 	if (CurrentTexture.size() != 0)
 	{
-		const TextureData& textureData = gData.TextureMgr->GetTextureData(textureName);
-		textureData.Release();
+		const TextureData* textureData = gData.TextureMgr->GetTextureData(textureName);
+		textureData->Release();
 	}
 
-	const TextureData& textureData = gData.TextureMgr->GetTextureData(textureName);
-	DrawableCasted->setTexture(&textureData.Texture);
-	textureData.AddRef();
+	const TextureData* textureData = gData.TextureMgr->GetTextureData(textureName);
+	DrawableCasted->setTexture(&textureData->Texture);
+	textureData->AddRef();
 
 	CurrentTexture = textureName;
 }
 
 void StaticRectangle::SetTile(const std::string& tileNameName)
 {
-	const TextureData& textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
-	TileData = textureData.StaticTilesData.at(tileNameName);
+	const TextureData* textureData = gData.TextureMgr->GetTextureData(CurrentTexture);
+	TileData = textureData->StaticTilesData.at(tileNameName);
 
 	CurrentTile = tileNameName;
 }

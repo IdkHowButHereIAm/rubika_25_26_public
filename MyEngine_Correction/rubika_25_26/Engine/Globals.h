@@ -6,6 +6,7 @@ class RandomMgr;
 class DebugMgr;
 class GameMgr;
 class Logger;
+class TaskMgr;
 
 class Globals
 {
@@ -20,12 +21,14 @@ public:
 	unsigned int FrameCount;
 
 	GameMgr* GameMgr;
+	InputMgr* InputMgr;
 	TextureMgr* TextureMgr;
 	DebugMgr* DebugMgr;
 	Logger* Console;
 	RandomMgr* RandomMgr;
+	TaskMgr* TaskMgr;
 
-	bool ExipApp = false;
+	bool ExitApp = false;
 };
 
 extern Globals gData;

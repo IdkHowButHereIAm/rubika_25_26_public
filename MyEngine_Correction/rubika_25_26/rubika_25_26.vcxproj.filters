@@ -106,6 +106,18 @@
     <Filter Include="Source Files\Engine\Random">
       <UniqueIdentifier>{e3e1e374-e39b-45db-8f6b-4ac6709f7eb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Task">
+      <UniqueIdentifier>{68f3dc29-5b1d-432b-8c8e-08e3130c1462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Task">
+      <UniqueIdentifier>{f899584b-df6b-417e-a6a2-67230e93eb3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Input">
+      <UniqueIdentifier>{8fe59b70-bc37-4756-9790-06a177f8b4a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Input">
+      <UniqueIdentifier>{3959a844-dd5f-4c2f-84a5-fdf74c57b082}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Render\Ressource\TextureMgr.cpp">
@@ -177,6 +189,15 @@
     <ClCompile Include="Engine\Random\CellularAutomata.cpp">
       <Filter>Source Files\Engine\Random</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Task\TaskMgr.cpp">
+      <Filter>Source Files\Engine\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\InputMgr.cpp">
+      <Filter>Source Files\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\PlayerInputAction.cpp">
+      <Filter>Source Files\Engine\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Render\Ressource\TextureMgr.h">
@@ -235,6 +256,21 @@
     </ClInclude>
     <ClInclude Include="Engine\Random\CellularAutomata.h">
       <Filter>Header Files\Engine\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Task\TaskMgr.h">
+      <Filter>Header Files\Engine\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\InputAction.h">
+      <Filter>Header Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\InputMgr.h">
+      <Filter>Header Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\Player0KeyboardDefaultBind.h">
+      <Filter>Header Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\PlayerInputAction.h">
+      <Filter>Header Files\Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
