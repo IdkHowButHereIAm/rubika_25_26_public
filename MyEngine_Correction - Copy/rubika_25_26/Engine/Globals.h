@@ -1,4 +1,5 @@
 #pragma once
+#include "TaskMgr.h"
 
 class InputMgr;
 class TextureMgr;
@@ -21,6 +22,7 @@ public:
 
 	GameMgr* GameMgr;
 	TextureMgr* TextureMgr;
+	TaskMgr* TaskMgr;
 	DebugMgr* DebugMgr;
 	Logger* Console;
 	RandomMgr* RandomMgr;

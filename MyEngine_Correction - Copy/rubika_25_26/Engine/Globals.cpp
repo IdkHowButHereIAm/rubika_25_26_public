@@ -15,6 +15,7 @@ Globals::Globals() : FrameCount(0)
 	DebugMgr = new ::DebugMgr();
 	Console = new ::Logger();
 	RandomMgr = new ::RandomMgr();
+	TaskMgr = new ::TaskMgr();
 }
 
 Globals::~Globals()
@@ -26,6 +27,7 @@ void Globals::Init()
 {
 	//GameMgr->Init();
 	TextureMgr->Init();
+	TaskMgr->Init();
 	//DebugMgr->Init();
 	Console->Init();
 	RandomMgr->Init();
@@ -35,6 +37,7 @@ void Globals::Shut()
 {
 	//GameMgr->Shut();
 	TextureMgr->Shut();
+	TaskMgr->Shut();
 	//DebugMgr->Shut();
 	Console->Shut();
 	RandomMgr->Shut();
@@ -56,4 +59,7 @@ void Globals::Destroy()
 
 	delete RandomMgr;
 	RandomMgr = nullptr;
+
+	delete TaskMgr;
+	TaskMgr = nullptr;
 }
