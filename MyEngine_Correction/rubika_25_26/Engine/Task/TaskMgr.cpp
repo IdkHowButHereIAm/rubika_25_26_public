@@ -104,22 +104,32 @@ void TaskMgr::WaitPhase()
 	//std::unique_lock<std::mutex> lock(FinishedMutex);
 	//FinishedConditionWorkerSync.wait(lock, [this]()
 	//	{
-	//		return WorkerSyncActiveJobs == 0 && !HasAvailableJob();
+	//		if (CurrentPhase == ePhase::Update && UpdateActiveJobs == 0)
+	//		{
+	//			return true;
+	//		}
+	//
+	//		if (CurrentPhase == ePhase::Draw && DrawActiveJobs == 0)
+	//		{
+	//			return true;
+	//		}
+	//
+	//		return false;
 	//	});
 
 	while (true)
 	{
-
+	
 		if (CurrentPhase == ePhase::Update && UpdateActiveJobs == 0)
 		{
 			return;
 		}
-
+	
 		if (CurrentPhase == ePhase::Draw && DrawActiveJobs == 0)
 		{
 			return;
 		}
-
+	
 		//Sleep(1);
 	}
 }
@@ -196,9 +206,11 @@ void TaskMgr::WorkerSyncLoop()
 
 		std::function<void()> job;
 
+		ePhase p = CurrentPhase;
 		{
+
 			std::unique_lock<std::mutex> lock(QueueMutex);
-			switch (CurrentPhase)
+			switch (p)
 			{
 			case TaskMgr::ePhase::Draw:
 				if (TasksToRunOnDraw.empty())
@@ -215,17 +227,17 @@ void TaskMgr::WorkerSyncLoop()
 				break;
 
 			default:
-				assert(false);
+				continue;
 			}
 		}
 
 		job();
 
-		if (CurrentPhase == ePhase::Update)
+		if (p == ePhase::Update)
 		{
 			--UpdateActiveJobs;
 		}
-		if (CurrentPhase == ePhase::Draw)
+		if (p == ePhase::Draw)
 		{
 			--DrawActiveJobs;
 		}
